@@ -2,7 +2,7 @@
 
 ## Current development boundary
 
-The project is currently in repository and documentation foundation work. The five initial repositories exist, but no implementation stack or deployable application foundation has been verified yet.
+The project has entered its first controlled Development implementation tranche. The five initial repositories have governed foundations and ADR-0001 selects the initial toolchain, but no deployable application, production service, Release Candidate, or Stable release is established.
 
 Do not describe planned roadmap capabilities as implemented merely because they are documented.
 
@@ -47,9 +47,16 @@ states when those distinctions are material.
 
 ## Toolchain selection
 
-No language, framework, database, package manager, build system, or runtime is selected by this repository foundation.
+ADR-0001 selects the initial Development toolchain:
 
-When implementation begins, select each toolchain at the repository that owns the affected implementation and document the decision before treating it as a project-wide dependency.
+- server: Go 1.27.1;
+- web development/CI runtime: Node.js 24.21.0 LTS;
+- web language: TypeScript 7.0.2;
+- shared client/server contract: REST-style HTTP/JSON described with OpenAPI 3.1;
+- API path versioning begins under `/api/v1/`, with v1 still Development rather than Stable;
+- feeds-shared intentionally has no selected implementation language/package until genuine multi-repository reuse exists.
+
+Database technology, authentication implementation, web UI framework, container/deployment model, and production packaging remain deferred decisions.
 
 ## Secrets and local state
 

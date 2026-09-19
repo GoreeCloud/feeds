@@ -4,7 +4,7 @@ GoreeCloud Feeds is the central project repository for the planned GoreeCloud fe
 
 ## Current state
 
-**Repository state:** project and documentation foundation.
+**Repository state:** Development foundation — implementation toolchain selected; no deployable product yet.
 
 The five initial repositories exist, but the project does not yet have a verified deployable server, web client, stable protocol release, production deployment, or Stable release. Planned capabilities must not be read as implemented functionality.
 
@@ -38,9 +38,10 @@ See [ARCHITECTURE.md](ARCHITECTURE.md).
 - [COORDINATION.md](COORDINATION.md) — cross-repository ownership and synchronization rules.
 - [RELEASES.md](RELEASES.md) — release-state boundaries and future release documentation.
 - [CONTRIBUTING.md](CONTRIBUTING.md) — contribution and review workflow.
+- [docs/decisions/ADR-0001-implementation-toolchain.md](docs/decisions/ADR-0001-implementation-toolchain.md) — accepted initial Development toolchain decision.
 
 ## Development and release status
 
-No technology stack, package format, container image, public API version, supported client matrix, release candidate, production deployment, or Stable release is established by this repository foundation.
+ADR-0001 selects Go for the server, TypeScript for the web client, and a Development REST-style HTTP/JSON contract described with OpenAPI 3.1. This does not establish a deployable product, Stable API, database, authentication implementation, container image, supported client matrix, release candidate, production deployment, or Stable release.
 
 Repository and documentation changes should preserve that status distinction until implementation and authoritative verification support stronger claims.
