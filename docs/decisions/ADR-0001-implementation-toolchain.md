@@ -102,7 +102,7 @@ Constraints:
 
 - web UI work remains blocked until Glaze UI V1.6.0 integration is implemented and validated;
 - protocol v1 remains Development, not Stable;
-- persistence, authentication, feed parsing, scheduling, deployment, and production acceptance remain unresolved;
+- database-connected persistence, authentication, scheduling, deployment, and production acceptance remain unresolved; PostgreSQL 18 is selected by ADR-0002 but is not yet a running dependency;
 - changing a selected toolchain later requires a controlled decision and migration impact review.
 
 ## Verification sources

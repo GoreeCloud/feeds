@@ -4,7 +4,7 @@
 
 **Lifecycle of this record:** planned capability roadmap.
 
-**Implementation boundary:** the five initial repositories exist, but no product capability is marked complete by this repository-local roadmap solely because the repository foundation exists.
+**Implementation boundary:** controlled Development implementation is underway across the server, protocol, and web repositories. No capability is complete merely because code, schema, or repository foundation exists; each roadmap obligation still requires its own implementation and verification.
 
 The authoritative GoreeCloud planning record is maintained in the governed Feature Roadmap location. This file is the repository-local roadmap representation for development coordination.
 
@@ -74,3 +74,4 @@ Desktop, mobile, dedicated documentation-site, and extension repositories remain
 Each capability remains planned until implementation and authoritative verification in the owning repository demonstrate a stronger state.
 
 Repository-level implementation work should update this roadmap when capability scope, priority, dependency, implementation state, verification state, or lifecycle disposition materially changes.
+\n## Current Development foundation\n\nVerified project-level decisions now include the initial Go/TypeScript/OpenAPI toolchain and PostgreSQL 18 persistence architecture. The server has bounded parser/model/deduplication implementation, the protocol has a Development capability contract, and the web repository has a typed capability client. Durable database connectivity, storage runtime, backup/restore, remote retrieval, authentication, synchronization, rendered Glaze UI, deployment, and Stable qualification remain incomplete.\n

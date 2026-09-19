@@ -56,7 +56,7 @@ ADR-0001 selects the initial Development toolchain:
 - API path versioning begins under `/api/v1/`, with v1 still Development rather than Stable;
 - feeds-shared intentionally has no selected implementation language/package until genuine multi-repository reuse exists.
 
-Database technology, authentication implementation, web UI framework, container/deployment model, and production packaging remain deferred decisions.
+ADR-0002 selects PostgreSQL 18 as the Development persistence target and requires ordered version-controlled SQL migrations in feeds-server. A PostgreSQL Go driver, database-connected runtime, credentials/configuration model, authentication implementation, web UI framework, container/deployment model, and production packaging remain deferred decisions.
 
 ## Secrets and local state
 

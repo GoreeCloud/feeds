@@ -38,10 +38,10 @@ See [ARCHITECTURE.md](ARCHITECTURE.md).
 - [COORDINATION.md](COORDINATION.md) — cross-repository ownership and synchronization rules.
 - [RELEASES.md](RELEASES.md) — release-state boundaries and future release documentation.
 - [CONTRIBUTING.md](CONTRIBUTING.md) — contribution and review workflow.
-- [docs/decisions/ADR-0001-implementation-toolchain.md](docs/decisions/ADR-0001-implementation-toolchain.md) — accepted initial Development toolchain decision.
+- [docs/decisions/ADR-0001-implementation-toolchain.md](docs/decisions/ADR-0001-implementation-toolchain.md) — accepted initial Development toolchain decision.\n- [docs/decisions/ADR-0002-persistence-architecture.md](docs/decisions/ADR-0002-persistence-architecture.md) — accepted PostgreSQL 18 Development persistence and migration boundary.
 
 ## Development and release status
 
-ADR-0001 selects Go for the server, TypeScript for the web client, and a Development REST-style HTTP/JSON contract described with OpenAPI 3.1. This does not establish a deployable product, Stable API, database, authentication implementation, container image, supported client matrix, release candidate, production deployment, or Stable release.
+ADR-0001 selects Go for the server, TypeScript for the web client, and a Development REST-style HTTP/JSON contract described with OpenAPI 3.1. ADR-0002 selects PostgreSQL 18 as the Development persistence target and a version-controlled SQL migration boundary. No database-connected runtime, database credentials, production data, Stable schema/API, authentication implementation, container image, supported client matrix, Release Candidate, production deployment, or Stable release is established.
 
 Repository and documentation changes should preserve that status distinction until implementation and authoritative verification support stronger claims.

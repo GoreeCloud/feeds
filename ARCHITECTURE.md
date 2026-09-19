@@ -64,7 +64,7 @@ The planned model keeps server-side feed and account state authoritative while c
 
 Protocol definitions should be versioned so clients and servers can evolve without unnecessarily breaking compatibility.
 
-ADR-0001 now selects Go for the initial server runtime, TypeScript for the web toolchain, and a Development REST-style HTTP/JSON contract described with OpenAPI 3.1. The initial shared API path is `/api/v1/capabilities`. Database technology, queue/cache choices, web UI framework, authentication implementation, and deployment topology remain deferred.
+ADR-0001 selects Go for the initial server runtime, TypeScript for the web toolchain, and a Development REST-style HTTP/JSON contract described with OpenAPI 3.1. The initial shared API path is `/api/v1/capabilities`. ADR-0002 now selects PostgreSQL 18 as the Development persistence target, with Feeds Server owning the database, version-controlled SQL migrations, shared Feed/Article content separated from per-user Subscription/ArticleState, and database-aware backup/recovery required before release qualification. The Go PostgreSQL driver, queue/cache choices, web UI framework, authentication implementation, and deployment topology remain deferred.
 
 ## Future clients
 
