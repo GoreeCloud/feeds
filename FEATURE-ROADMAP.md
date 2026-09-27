@@ -4,7 +4,7 @@
 
 **Lifecycle of this record:** planned capability roadmap.
 
-**Implementation boundary:** controlled Development implementation is underway across the server, protocol, and web repositories. No capability is complete merely because code, schema, or repository foundation exists; each roadmap obligation still requires its own implementation and verification.
+**Implementation boundary:** controlled Development implementation is underway across the server, protocol, and web components inside this product-family monorepo. No capability is complete merely because source, schema, or a component foundation exists; each roadmap obligation still requires implementation and verification.
 
 The authoritative GoreeCloud planning record is maintained in the governed Feature Roadmap location. This file is the repository-local roadmap representation for development coordination.
 
@@ -49,29 +49,29 @@ The authoritative GoreeCloud planning record is maintained in the governed Featu
 37. Client API
 38. Future Native Clients
 39. Repository Structure
-40. Future Repositories
-41. Recommended Initial Repository Set
+40. Future Components
+41. Product-family Development Model
 42. Project Goal
 
-## Initial repository set
+## Product-family structure
 
-The initial repository set is established as:
+The initial Feeds source family is consolidated into:
 
-- `feeds`
-- `feeds-server`
-- `feeds-web`
-- `feeds-protocol`
-- `feeds-shared`
+- `services/server/`
+- `apps/web/`
+- `packages/protocol/`
+- `packages/shared/`
 
-Repository existence does not establish implementation completion.
+Future desktop, mobile, documentation-site, extension, or other clients should normally be added as component targets within this repository unless a later repository-boundary review establishes a genuine independent lifecycle.
 
-## Deferred repository expansion
+## Current Development foundation
 
-Desktop, mobile, dedicated documentation-site, and extension repositories remain deferred until their development phases are authorized.
+Verified Development source includes the Go/TypeScript/OpenAPI toolchain, PostgreSQL 18 persistence architecture, bounded parser/model/deduplication implementation, durable PostgreSQL migration/repository foundations, bounded remote retrieval with retry/backoff, a Development capability contract, and a typed web capability client.
+
+Full runtime orchestration, authentication, synchronization, rendered Glaze UI product experience, production deployment, backup/restore acceptance, and Stable qualification remain incomplete.
 
 ## Status discipline
 
-Each capability remains planned until implementation and authoritative verification in the owning repository demonstrate a stronger state.
+Each capability remains planned until implementation and authoritative verification demonstrate a stronger state.
 
 Repository-level implementation work should update this roadmap when capability scope, priority, dependency, implementation state, verification state, or lifecycle disposition materially changes.
-\n## Current Development foundation\n\nVerified project-level decisions now include the initial Go/TypeScript/OpenAPI toolchain and PostgreSQL 18 persistence architecture. The server has bounded parser/model/deduplication implementation, the protocol has a Development capability contract, and the web repository has a typed capability client. Durable database connectivity, storage runtime, backup/restore, remote retrieval, authentication, synchronization, rendered Glaze UI, deployment, and Stable qualification remain incomplete.\n

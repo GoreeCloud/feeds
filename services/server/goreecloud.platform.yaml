@@ -1,0 +1,145 @@
+schema_version: "0.4"
+
+component:
+  type: server
+  id: goreecloud-feeds-server
+  product_name: GoreeCloud Feeds Server
+  repository: GoreeCloud/feeds
+
+lifecycle: development
+version: "0.1.0-dev"
+
+supported_platforms:
+  - server
+
+api:
+  versions:
+    - v1
+  endpoints:
+    - name: capabilities
+      url: /api/v1/capabilities
+      purpose: Return non-sensitive Development API lifecycle and capability-negotiation metadata.
+    - name: health-live
+      url: /health/live
+      purpose: Development process liveness.
+    - name: health-ready
+      url: /health/ready
+      purpose: Development readiness for the current dependency-free runtime tranche.
+
+platform_systems:
+  manager:
+    result: applicable-blocked
+    version: null
+    evidence: [README.md, SPECIFICATIONS.md]
+    notes: Health endpoints now exist, but accepted Manager registration, lifecycle visibility, and operational integration are not implemented.
+  privacy_shield:
+    result: applicable-blocked
+    version: null
+    evidence: [PRIVACY POLICY.md, SPECIFICATIONS.md]
+    notes: The network-visible Development runtime remains non-data-bearing. Internal parser code processes caller-supplied XML in memory, and the bounded retrieval client minimizes ambient credentials/proxy use and cross-host validator disclosure. No runtime Privacy Shield integration or acceptance exists.
+  wardveil_security:
+    result: applicable-blocked
+    version: null
+    evidence: [SECURITY.md, SPECIFICATIONS.md, internal/server/server.go, internal/feed/parser.go, internal/feed/parser_test.go, internal/feed/dedup.go, internal/feed/dedup_test.go, internal/retrieval/policy.go, internal/retrieval/client.go, internal/retrieval/client_test.go, internal/storage/postgres/migrations/0001_initial.sql, internal/storage/postgres/migrations.go, internal/storage/postgres/migrations_test.go]
+    notes: Initial safe-by-default Development HTTP behavior, bounded XML parsing, conflict-safe conservative deduplication, and SSRF-aware bounded retrieval controls exist, but no Wardveil Security runtime integration or acceptance exists.
+  everkeep:
+    result: applicable-blocked
+    version: null
+    evidence: [SPECIFICATIONS.md, USER-MANUAL.md]
+    notes: PostgreSQL schema, connectivity/migration application, and durable core repository transactions are implemented and CI-validated, but the network server is not wired to those storage paths. Database-aware backup and restore remain mandatory before persisted data can qualify for release; no Everkeep implementation or recovery acceptance exists.
+  glaze_ui:
+    result: applicable-blocked
+    version: "1.6.0"
+    evidence: [README.md, BRANDING.md]
+    notes: Glaze UI V1.6.0 is the current target for supported Feeds administration/client surfaces, but this server runtime has no accepted user-interface integration.
+  mesh:
+    result: applicable-blocked
+    version: null
+    evidence: [SPECIFICATIONS.md]
+    notes: Mesh registration, discovery, event contracts, capabilities, and runtime acceptance are not established.
+    capabilities: []
+    dependencies: []
+    published_events: []
+    consumed_events: []
+  identity:
+    result: applicable-blocked
+    version: null
+    evidence: [SPECIFICATIONS.md, SECURITY.md]
+    notes: The Development capability/health endpoints intentionally require no user identity because they expose no protected data. GoreeCloud Identity remains required for future protected product APIs.
+  policy:
+    result: applicable-blocked
+    version: null
+    evidence: [SPECIFICATIONS.md]
+    notes: GoreeCloud Policy integration, provenance, freshness, exception, and enforcement coordination are not established.
+  observability:
+    result: applicable-blocked
+    version: null
+    evidence: [cmd/feeds-server/main.go, SPECIFICATIONS.md]
+    notes: Development startup/shutdown logging exists, but no accepted GoreeCloud Observability integration exists.
+
+health:
+  health_endpoint: /health/live
+  readiness_endpoint: /health/ready
+
+continuity:
+  backup:
+    required: true
+    requirements:
+      - Define the complete persistent server backup scope before durable application data is introduced for release qualification.
+      - Integrate and validate approved Everkeep backup behavior before Release Candidate acceptance.
+  restore:
+    required: true
+    requirements:
+      - Validate isolated clean-target restore after persistent account, feed, article, synchronization, configuration, or index state is introduced.
+  export:
+    required: true
+    requirements:
+      - Provide portable exports for user-owned data before user-owned durable data is accepted for release.
+  portability:
+    required: true
+    requirements:
+      - Keep durable user data and protocol-visible state in versioned, documented, migratable forms.
+
+external_dependencies:
+  - name: PostgreSQL 18
+    purpose: Development persistence target selected by ADR-0002; integration validation uses PostgreSQL 18.6 while the network server is not yet database-wired.
+    required: false
+  - name: pgx v5.11.0
+    purpose: Pinned Go PostgreSQL driver and connection-pool implementation for the internal storage boundary.
+    required: true
+
+compatibility:
+  platform_contract: "0.4"
+  requires:
+    - goreecloud-platform-contract==0.4
+    - goreecloud-feeds-protocol==0.1.0-dev
+  provides:
+    - goreecloud-feeds-api-v1-development
+
+evidence:
+  acceptance_tests:
+    - internal/server/server_test.go
+    - internal/feed/parser_test.go
+    - internal/feed/dedup_test.go
+    - internal/retrieval/client_test.go
+    - internal/retrieval/client_test.go
+    - internal/storage/postgres/migrations_test.go
+    - internal/storage/postgres/store_test.go
+    - internal/storage/postgres/repository_test.go
+  release: []
+
+conformance:
+  status: nonconformant
+  validated_at: null
+  evidence: [README.md, SPECIFICATIONS.md, FEATURES.md, SECURITY.md, PRIVACY POLICY.md, DEPENDENCIES.md, cmd/feeds-server/main.go, internal/server/server.go, internal/server/server_test.go, internal/feed/model.go, internal/feed/parser.go, internal/feed/parser_test.go, internal/feed/dedup.go, internal/feed/dedup_test.go, internal/retrieval/policy.go, internal/retrieval/client.go, internal/retrieval/client_test.go, internal/storage/postgres/migrations.go, internal/storage/postgres/migrations_test.go, internal/storage/postgres/store.go, internal/storage/postgres/apply.go, internal/storage/postgres/store_test.go, internal/storage/postgres/repository.go, internal/storage/postgres/repository_test.go]
+  blockers:
+    - Current Development runtime implements capability discovery and health endpoints; internal feed/article models, RSS/Atom parsing, conservative deduplication, and a bounded retrieval transport are partial Development capabilities. Retrieval scheduler/queue/retry/history orchestration and ingestion wiring, server-runtime PostgreSQL wiring, complete metadata/subscription persistence, search, synchronization, administration, authentication, packaging, and deployment remain incomplete.
+    - GoreeCloud Identity integration and acceptance are not established for protected product APIs.
+    - Wardveil Security integration and acceptance are not established.
+    - Privacy Shield integration and acceptance are not established.
+    - Everkeep backup/restore/recovery acceptance is not established.
+    - GoreeCloud Manager integration and acceptance are not established.
+    - GoreeCloud Mesh integration and acceptance are not established.
+    - GoreeCloud Policy integration and acceptance are not established.
+    - GoreeCloud Observability integration and acceptance are not established.
+    - Release, deployment, rollback, target-environment validation, and Stable qualification do not exist.

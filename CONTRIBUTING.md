@@ -2,15 +2,17 @@
 
 ## Scope
 
-Contributions should preserve the defined repository boundaries and the distinction between planned and implemented functionality.
+Contributions should preserve the Feeds product-family monorepo boundaries and the distinction between planned and implemented functionality.
 
-## Choose the correct repository
+## Choose the correct component
 
-- Project-wide documentation and coordination: `feeds`
-- Server implementation: `feeds-server`
-- Web client: `feeds-web`
-- Shared protocol contracts: `feeds-protocol`
-- Genuinely reusable internal code: `feeds-shared`
+- Product-wide documentation and coordination: repository root and `docs/`
+- Server implementation: `services/server/`
+- Web client: `apps/web/`
+- Shared protocol contracts: `packages/protocol/`
+- Genuinely reusable internal implementation: `packages/shared/`
+
+A coherent pull request may update multiple component paths when a contract or product behavior requires coordinated change.
 
 ## Change workflow
 
@@ -27,8 +29,8 @@ Contributions should preserve the defined repository boundaries and the distinct
 
 Roadmap text describes intended capabilities unless implementation evidence establishes otherwise.
 
-Do not convert planned behavior into present-tense implementation claims without verifying the owning repository and the relevant tests or runtime evidence.
+Do not convert planned behavior into present-tense implementation claims without verifying the relevant source and tests.
 
-## Cross-repository changes
+## Coordinated component changes
 
-When one change affects multiple repositories, identify the ownership and dependency order explicitly. Protocol changes should be coordinated through `feeds-protocol` before dependent clients or servers claim compatibility with them.
+Protocol changes should be owned in `packages/protocol/`. A single pull request may also update `services/server/` and `apps/web/` against that contract, allowing one atomic review while preserving explicit ownership boundaries.
