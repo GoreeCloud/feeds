@@ -4,7 +4,7 @@ component:
   type: application
   id: goreecloud-feeds-web
   product_name: GoreeCloud Feeds Web
-  repository: GoreeCloud/feeds-web
+  repository: GoreeCloud/feeds
 
 lifecycle: development
 version: "0.1.0-dev"
