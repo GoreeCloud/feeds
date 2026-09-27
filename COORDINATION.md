@@ -1,42 +1,37 @@
-# GoreeCloud Feeds Cross-Repository Coordination
+# GoreeCloud Feeds Component Coordination
 
 ## Purpose
 
-This document defines the current project-level ownership map for the five initial GoreeCloud Feeds repositories.
+This document defines ownership boundaries inside the GoreeCloud Feeds product-family monorepo.
 
 ## Ownership map
 
-| Repository | Primary responsibility |
+| Path | Primary responsibility |
 | --- | --- |
-| `feeds` | Project-wide documentation, architecture, roadmap, deployment, compatibility, release, contribution, and coordination |
-| `feeds-server` | Authoritative service and server-side product behavior |
-| `feeds-web` | Glaze UI web client |
-| `feeds-protocol` | Shared client/server contracts and compatibility rules |
-| `feeds-shared` | Reusable internal implementation shared by more than one repository |
+| repository root | Product-family architecture, roadmap, deployment, compatibility, releases, contribution, and coordination |
+| `services/server/` | Authoritative service and server-side product behavior |
+| `apps/web/` | Glaze UI web-client implementation |
+| `packages/protocol/` | Shared client/server contracts and compatibility rules |
+| `packages/shared/` | Reusable implementation shared by more than one Feeds component |
 
 ## Dependency direction
 
-Protocol contracts should be owned by `feeds-protocol`.
+Protocol-affecting changes belong in `packages/protocol/`.
 
-Server-specific code should remain in `feeds-server`.
+Server-specific code belongs in `services/server/`.
 
-Web-specific code should remain in `feeds-web`.
+Web-specific code belongs in `apps/web/`.
 
-Reusable code should move to `feeds-shared` only when actual reuse justifies the shared ownership boundary.
+Reusable implementation should move into `packages/shared/` only when actual reuse justifies a shared ownership boundary.
 
-Project-wide documentation belongs in `feeds` unless a document describes repository-local implementation details.
+Project-wide documentation belongs at the repository root or under `docs/`; component-local implementation records stay with their component.
 
 ## Coordinated changes
 
-For a cross-repository change:
+A change may update multiple component paths in one pull request when the behavior or contract evolves together. The change must still identify the authoritative owner of each contract, record compatibility implications, and run the affected component validation.
 
-1. identify the authoritative owner of the contract or behavior;
-2. establish the owning change first;
-3. record compatibility or migration implications;
-4. update dependent repositories against the verified owner state;
-5. validate each repository independently; and
-6. update project-level documentation only after the relevant authoritative state is known.
+The monorepo removes cross-repository synchronization overhead; it does not erase component, runtime, API, release-artifact, or security boundaries.
 
 ## Current state
 
-The five repositories currently represent repository boundaries, not a verified integrated product. No cross-repository compatibility or runtime integration is established by repository existence alone.
+The former `feeds-server`, `feeds-web`, `feeds-protocol`, and `feeds-shared` source boundaries are represented by internal monorepo paths. Their predecessor repositories are migration predecessors rather than the intended location for new Feeds-family development once this migration is merged.

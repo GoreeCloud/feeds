@@ -2,32 +2,21 @@
 
 ## Current compatibility state
 
-No stable GoreeCloud Feeds protocol version, client compatibility matrix, supported server version, or backward-compatibility guarantee has been established.
+No Stable GoreeCloud Feeds protocol version, supported client matrix, or backward-compatibility guarantee has been established.
 
-## Planned compatibility model
+## Contract ownership
 
-The shared protocol is intended to live in `feeds-protocol` and define:
+The shared Development protocol is maintained under `packages/protocol/` and defines the versioned client/server contract, data structures, errors, and compatibility rules.
 
-- API contracts;
-- shared data structures;
-- synchronization structures;
-- error definitions;
-- event definitions;
-- protocol versioning; and
-- client/server compatibility rules.
+Protocol-affecting changes should be made in `packages/protocol/` and validated in the same pull request as affected server or client updates when coordination is required.
 
-All current and future clients are intended to communicate with GoreeCloud Feeds Server through the same contract.
-
-## Change rule
-
-A protocol-affecting change should be defined and versioned in `feeds-protocol` before a server or client claims compatibility with it.
-
-Breaking changes should be explicit. Compatibility claims must be tied to verified implementation rather than inferred from repository names or roadmap intent.
+Breaking changes must be explicit. Compatibility claims must be tied to verified implementation rather than inferred from directory names or roadmap intent.
 
 ## Current matrix
 
 | Component | Verified compatibility status |
 | --- | --- |
-| `feeds-server` | No stable protocol implementation verified |
-| `feeds-web` | No stable protocol implementation verified |
-| Future desktop/mobile clients | Not yet created for implementation |
+| `services/server/` | Development server source exists; no Stable protocol compatibility guarantee |
+| `apps/web/` | Typed Development capabilities client exists; no Stable compatibility guarantee |
+| `packages/protocol/` | Development OpenAPI contract exists; not Stable |
+| Future clients | Not yet established for supported release use |

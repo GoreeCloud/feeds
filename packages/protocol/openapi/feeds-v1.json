@@ -1,0 +1,72 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "GoreeCloud Feeds Development API",
+    "version": "0.1.0-dev",
+    "description": "Development-only GoreeCloud Feeds client/server contract. This version is not Stable."
+  },
+  "servers": [],
+  "paths": {
+    "/api/v1/capabilities": {
+      "get": {
+        "operationId": "getCapabilities",
+        "summary": "Read Development API capability state",
+        "description": "Returns non-sensitive API lifecycle and capability-negotiation metadata. This endpoint does not authenticate a user or expose feed content.",
+        "responses": {
+          "200": {
+            "description": "Capability state",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CapabilityResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CapabilityResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "product",
+          "api_version",
+          "protocol_version",
+          "lifecycle",
+          "capabilities"
+        ],
+        "properties": {
+          "product": {
+            "type": "string",
+            "const": "GoreeCloud Feeds Server"
+          },
+          "api_version": {
+            "type": "string",
+            "const": "v1"
+          },
+          "protocol_version": {
+            "type": "string",
+            "const": "0.1.0-dev"
+          },
+          "lifecycle": {
+            "type": "string",
+            "enum": [
+              "development"
+            ]
+          },
+          "capabilities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Enabled optional protocol capabilities. Empty in the first Development tranche."
+          }
+        }
+      }
+    }
+  }
+}

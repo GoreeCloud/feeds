@@ -2,40 +2,28 @@
 
 ## Current status
 
-There is currently **no verified deployable GoreeCloud Feeds artifact**.
+There is no verified production GoreeCloud Feeds deployment, supported release package, Release Candidate, or Stable artifact.
 
-The repository foundation does not establish:
+Development source now includes a Go server executable foundation under `services/server/`, a TypeScript web build foundation under `apps/web/`, a PostgreSQL 18 persistence target, and monorepo CI. Those facts do not establish a supported deployment.
 
-- a server executable;
-- a container image;
-- a web-client build;
-- a package;
-- a deployment manifest;
-- a production hostname;
-- a listening port;
-- a database engine;
-- a storage path;
-- a supported upgrade path; or
-- a production deployment.
+The following remain unverified or unestablished for production use:
 
-## Planned deployment boundary
+- supported container or package artifact;
+- production hostname and network exposure;
+- production authentication and authorization;
+- complete runtime wiring of retrieval, parsing, persistence, and synchronization;
+- production database configuration and upgrade procedure;
+- media/search storage topology;
+- backup and restore acceptance;
+- supported upgrade and rollback procedure; and
+- production acceptance evidence.
 
-The roadmap defines GoreeCloud Feeds Server as the authoritative service and clients as consumers of its shared API and synchronization contract.
+## Deployment boundary
 
-A future deployment model may therefore need to account for:
+The server is the intended authoritative service and clients consume its shared protocol.
 
-- server runtime;
-- persistent article and account data;
-- media cache;
-- backups and restore;
-- search storage;
-- authentication and authorization;
-- network exposure;
-- client/server protocol compatibility; and
-- upgrade and rollback behavior.
-
-These are planning boundaries, not selected implementation details.
+Any future deployment model must account for server runtime, durable article/account data, media cache, search state, authentication, network exposure, protocol compatibility, backup/recovery, migration, upgrade, and rollback behavior.
 
 ## Completion rule
 
-Deployment documentation should only publish commands, ports, images, environment variables, storage paths, migration procedures, or operational guarantees after those values are established and verified in the owning implementation repository.
+Deployment documentation may publish operational commands, images, ports, environment variables, storage paths, migration procedures, or guarantees only after those values are implemented and verified in this repository.

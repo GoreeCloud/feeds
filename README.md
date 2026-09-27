@@ -1,47 +1,45 @@
 # GoreeCloud Feeds
 
-GoreeCloud Feeds is the central project repository for the planned GoreeCloud feed aggregation, synchronization, reading, search, preservation, and content-management platform.
+GoreeCloud Feeds is the GoreeCloud feed aggregation, synchronization, reading, search, preservation, and content-management platform.
 
-## Current state
+This repository is the canonical **Feeds product-family monorepo**. The server, web client, protocol contract, reusable shared package boundary, and project-wide documentation are maintained together while retaining clear internal ownership boundaries.
 
-**Repository state:** Development foundation — implementation toolchain selected; no deployable product yet.
+## Repository layout
 
-The five initial repositories exist, but the project does not yet have a verified deployable server, web client, stable protocol release, production deployment, or Stable release. Planned capabilities must not be read as implemented functionality.
+- `services/server/` — Go server runtime, feed processing, retrieval, and PostgreSQL persistence foundations.
+- `apps/web/` — TypeScript web-client foundation and typed Development protocol client.
+- `packages/protocol/` — versioned Development API contract and validation tooling.
+- `packages/shared/` — genuinely reusable Feeds code and shared technical records when reuse is justified.
+- `docs/` — product-family architecture decisions and supporting documentation.
+- `.github/workflows/` — monorepo-aware server, web, and protocol validation.
 
-## Repository role
+## Current Development state
 
-This repository is the central coordination home for GoreeCloud Feeds. It owns project-level documentation and cross-repository coordination rather than the server or client implementation itself.
+GoreeCloud Feeds remains in **Development** and has no Stable release or production deployment.
 
-The initial repository set is:
+Verified source foundations now present in this repository include:
 
-- [feeds](https://github.com/GoreeCloud/feeds) — project overview, architecture, development, deployment, roadmap, compatibility, release, and cross-repository coordination.
-- [feeds-server](https://github.com/GoreeCloud/feeds-server) — planned authoritative feed ingestion, processing, storage, search, synchronization, administration, and server API.
-- [feeds-web](https://github.com/GoreeCloud/feeds-web) — planned Glaze UI web client.
-- [feeds-protocol](https://github.com/GoreeCloud/feeds-protocol) — planned shared API, data, synchronization, event, error, and compatibility contracts.
-- [feeds-shared](https://github.com/GoreeCloud/feeds-shared) — planned genuinely reusable internal models, validation, utilities, transformations, synchronization helpers, constants, and test fixtures.
+- Go server runtime and tests.
+- Normalized feed/article models plus bounded RSS/Atom parsing.
+- Conservative source-scoped article deduplication.
+- PostgreSQL 18 schema/migration, connectivity, and durable core repository foundations.
+- Bounded remote-feed retrieval with destination/redirect controls, conditional requests, concurrency limits, transient retry/backoff, and bounded `Retry-After` handling.
+- Development OpenAPI contract under `packages/protocol/`.
+- TypeScript web toolchain and typed Development capabilities client under `apps/web/`.
+- Monorepo CI that validates the server, web client, and protocol from their new paths.
 
-Future desktop, mobile, documentation-site, and extension repositories remain deferred until their development phases are authorized.
+The network-visible server runtime is not yet fully wired to the persistence and retrieval pipelines, and production authentication, synchronization, full Glaze UI product experience, deployment packaging, backup/recovery acceptance, Release Candidate, and Stable qualification remain incomplete.
 
-## Architecture boundary
+## Architecture
 
-The planned architecture is client-server based. GoreeCloud Feeds Server is intended to remain authoritative for feed ingestion, processing, search, storage, synchronization, and administration. Clients are intended to communicate through a shared versioned protocol instead of independently redefining server state.
+The server remains authoritative for server-side feed and account state. Clients consume versioned protocol contracts and maintain only the local state required for interface behavior, caching, offline operation, and synchronization.
 
-See [ARCHITECTURE.md](ARCHITECTURE.md).
+See `ARCHITECTURE.md` and the decisions under `docs/decisions/`.
 
-## Project documentation
+## Development and release integrity
 
-- [ARCHITECTURE.md](ARCHITECTURE.md) — current planned architecture and repository boundaries.
-- [DEVELOPMENT.md](DEVELOPMENT.md) — development-state and repository workflow guidance.
-- [DEPLOYMENT.md](DEPLOYMENT.md) — deployment boundary and current non-deployable status.
-- [FEATURE-ROADMAP.md](FEATURE-ROADMAP.md) — repository-local roadmap index and implementation-state boundary.
-- [COMPATIBILITY.md](COMPATIBILITY.md) — protocol and client/server compatibility principles.
-- [COORDINATION.md](COORDINATION.md) — cross-repository ownership and synchronization rules.
-- [RELEASES.md](RELEASES.md) — release-state boundaries and future release documentation.
-- [CONTRIBUTING.md](CONTRIBUTING.md) — contribution and review workflow.
-- [docs/decisions/ADR-0001-implementation-toolchain.md](docs/decisions/ADR-0001-implementation-toolchain.md) — accepted initial Development toolchain decision.\n- [docs/decisions/ADR-0002-persistence-architecture.md](docs/decisions/ADR-0002-persistence-architecture.md) — accepted PostgreSQL 18 Development persistence and migration boundary.
+A source file, passing workflow, merged pull request, or monorepo migration does not itself establish a release or production acceptance. Current implementation claims must remain tied to verified source and test evidence.
 
-## Development and release status
+## License
 
-ADR-0001 selects Go for the server, TypeScript for the web client, and a Development REST-style HTTP/JSON contract described with OpenAPI 3.1. ADR-0002 selects PostgreSQL 18 as the Development persistence target and a version-controlled SQL migration boundary. No database-connected runtime, database credentials, production data, Stable schema/API, authentication implementation, container image, supported client matrix, Release Candidate, production deployment, or Stable release is established.
-
-Repository and documentation changes should preserve that status distinction until implementation and authoritative verification support stronger claims.
+Component license files migrated from the predecessor repositories remain alongside their component sources. Project-wide licensing must continue to follow the applicable GoreeCloud licensing governance.

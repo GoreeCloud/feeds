@@ -1,0 +1,130 @@
+schema_version: "0.4"
+
+component:
+  type: application
+  id: goreecloud-feeds-web
+  product_name: GoreeCloud Feeds Web
+  repository: GoreeCloud/feeds-web
+
+lifecycle: development
+version: "0.1.0-dev"
+
+supported_platforms:
+  - web
+
+api:
+  versions: []
+  endpoints: []
+
+platform_systems:
+  manager:
+    result: applicable-blocked
+    version: null
+    evidence: [README.md, SPECIFICATIONS.md]
+    notes: No rendered application or accepted Manager integration exists.
+  privacy_shield:
+    result: applicable-blocked
+    version: null
+    evidence: [PRIVACY POLICY.md, SPECIFICATIONS.md]
+    notes: A privacy-minimized Development capability client exists and sends no user data or credentials; no rendered browser product runtime or accepted Privacy Shield integration exists.
+  wardveil_security:
+    result: applicable-blocked
+    version: null
+    evidence: [SECURITY.md, SPECIFICATIONS.md, src/protocol/capabilities.ts, scripts/test-protocol-client.mjs]
+    notes: Toolchain hardening and fail-closed Development capability-client validation exist, but no rendered application or accepted Wardveil Security runtime integration exists.
+  everkeep:
+    result: applicable-blocked
+    version: null
+    evidence: [SPECIFICATIONS.md, USER-MANUAL.md]
+    notes: Server-side recovery is authoritative for durable product data; client-local recovery/cache behavior is not implemented or accepted.
+  glaze_ui:
+    result: applicable-blocked
+    version: "1.6.0"
+    evidence: [README.md, BRANDING.md, FEATURE-ROADMAP.md, src/development.ts]
+    notes: Glaze UI V1.6.0 is the current Official Stable consumer target, but no rendered Feeds Web implementation, accessibility acceptance, or product conformance exists.
+  mesh:
+    result: applicable-blocked
+    version: null
+    evidence: [SPECIFICATIONS.md]
+    notes: Mesh service discovery/transport/capability integration is not established.
+    capabilities: []
+    dependencies: []
+    published_events: []
+    consumed_events: []
+  identity:
+    result: applicable-blocked
+    version: null
+    evidence: [SPECIFICATIONS.md, SECURITY.md]
+    notes: GoreeCloud Identity is the planned identity/authentication authority, but no browser client integration exists.
+  policy:
+    result: applicable-blocked
+    version: null
+    evidence: [SPECIFICATIONS.md]
+    notes: GoreeCloud Policy decision provenance, freshness, exception, explanation, and enforcement coordination are not established.
+  observability:
+    result: applicable-blocked
+    version: null
+    evidence: [SPECIFICATIONS.md]
+    notes: No rendered runtime or accepted GoreeCloud Observability integration exists.
+
+health:
+  health_endpoint: null
+  readiness_endpoint: null
+
+continuity:
+  backup:
+    required: false
+    requirements:
+      - Treat future browser-local cache as non-authoritative unless a later approved design explicitly promotes local durable state.
+  restore:
+    required: false
+    requirements:
+      - Recover durable product state from the authoritative server rather than relying on browser-local cache where possible.
+  export:
+    required: true
+    requirements:
+      - Expose future user-requested portable export through supported server contracts without leaking reusable credentials.
+  portability:
+    required: true
+    requirements:
+      - Keep client-visible durable state compatible with versioned GoreeCloud Feeds protocol contracts.
+
+external_dependencies:
+  - name: Node.js
+    purpose: Development and CI runtime for the TypeScript web toolchain.
+    required: false
+  - name: TypeScript
+    purpose: Development compiler and type-checker for web application source.
+    required: false
+
+compatibility:
+  platform_contract: "0.4"
+  glaze_ui_required: "1.6.0"
+  requires:
+    - goreecloud-platform-contract==0.4
+    - glaze-ui==1.6.0
+    - goreecloud-feeds-protocol==0.1.0-dev
+  provides:
+    - goreecloud-feeds-web-development-toolchain
+
+evidence:
+  acceptance_tests:
+    - scripts/test-protocol-client.mjs
+  release: []
+
+conformance:
+  status: nonconformant
+  validated_at: null
+  evidence: [README.md, SPECIFICATIONS.md, FEATURES.md, BRANDING.md, SECURITY.md, package.json, tsconfig.json, src/development.ts, src/protocol/capabilities.ts, scripts/test-protocol-client.mjs]
+  blockers:
+    - Current implementation includes a TypeScript Development toolchain and non-sensitive capability client only; no rendered web application, authenticated product API integration, offline runtime, or deployment exists.
+    - Glaze UI V1.6.0 application-specific implementation and acceptance are not established.
+    - GoreeCloud Identity integration and acceptance are not established.
+    - Wardveil Security integration and acceptance are not established.
+    - Privacy Shield integration and acceptance are not established.
+    - Client-local recovery/cache acceptance is not established.
+    - GoreeCloud Manager integration and acceptance are not established.
+    - GoreeCloud Mesh integration and acceptance are not established.
+    - GoreeCloud Policy integration and acceptance are not established.
+    - GoreeCloud Observability integration and acceptance are not established.
+    - Responsive, accessibility, performance, browser, deployment, rollback, release, and Stable qualification do not exist.
