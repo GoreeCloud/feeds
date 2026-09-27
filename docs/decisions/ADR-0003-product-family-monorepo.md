@@ -40,5 +40,5 @@ Not selected for this migration because the owner explicitly accepted loss of no
 - New Feeds-family development should occur in this repository.
 - Server, web, and protocol changes can be reviewed atomically.
 - Component CI remains separate but is executed from root workflows against monorepo paths.
-- Predecessor repositories should be archived or clearly redirected after provider-level archival controls are available and the monorepo migration is verified.
+- The predecessor repositories are archived migration predecessors; active Feeds-family development belongs in this canonical monorepo.
 - A component may be split out later only if it develops a genuinely independent lifecycle.
