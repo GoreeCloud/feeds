@@ -34,4 +34,4 @@ The monorepo removes cross-repository synchronization overhead; it does not eras
 
 ## Current state
 
-The former `feeds-server`, `feeds-web`, `feeds-protocol`, and `feeds-shared` source boundaries are represented by internal monorepo paths. Their predecessor repositories are migration predecessors rather than the intended location for new Feeds-family development once this migration is merged.
+The former component source boundaries are represented by the internal monorepo paths above. Their predecessor repositories are archived migration predecessors; new Feeds-family development belongs in this canonical repository unless a future boundary review establishes an independent lifecycle.
