@@ -1,4 +1,6 @@
-# GoreeCloud Feeds Feature Roadmap
+# GoreeCloud Feeds — Planned Features
+
+> **Authority:** Repository-native planned-feature record. GitHub is the sole feature-state authority after Drive retirement.
 
 ## Status
 
@@ -6,7 +8,7 @@
 
 **Implementation boundary:** controlled Development implementation is underway across the server, protocol, and web components inside this product-family monorepo. No capability is complete merely because source, schema, or a component foundation exists; each roadmap obligation still requires implementation and verification.
 
-The authoritative GoreeCloud planning record is maintained in the governed Feature Roadmap location. This file is the repository-local roadmap representation for development coordination.
+This repository-native file is the authoritative planned-feature record for GoreeCloud Feeds. The former Google Drive planning copy is retired after verified migration.
 
 ## Planned capability sections
 
