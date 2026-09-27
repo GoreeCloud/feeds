@@ -4,7 +4,7 @@ component:
   type: server
   id: goreecloud-feeds-server
   product_name: GoreeCloud Feeds Server
-  repository: GoreeCloud/feeds-server
+  repository: GoreeCloud/feeds
 
 lifecycle: development
 version: "0.1.0-dev"
