@@ -34,13 +34,13 @@ Clients present reading, organization, search, settings, administration, and off
 
 ## Current Development implementation
 
-The server source currently includes a Go runtime, normalized feed/article models, bounded RSS/Atom parsing, conservative source-scoped deduplication, PostgreSQL 18 migration/connectivity/repository foundations, a bounded user-scoped chronological article read, a dependency-gated article-list HTTP boundary, and bounded remote-feed retrieval with SSRF-aware destination controls, redirect validation, conditional requests, concurrency limits, and transient retry/backoff.
+The server source currently includes a Go runtime, normalized feed/article models, bounded RSS/Atom parsing, conservative source-scoped deduplication, PostgreSQL 18 migration/connectivity/repository foundations, optional Development PostgreSQL startup/migration wiring, a bounded user-scoped chronological article read, a dependency-gated article-list HTTP boundary, and bounded remote-feed retrieval with SSRF-aware destination controls, redirect validation, conditional requests, concurrency limits, and transient retry/backoff.
 
 The web source includes a pinned TypeScript/Node Development toolchain plus strict capability and bounded article-list clients.
 
 The protocol package contains the Development HTTP/JSON contract described with OpenAPI 3.1 and validation tooling, including capability discovery and bounded server-context article listing.
 
-The article-list source boundary is implemented but capability advertisement remains conditional on both an article reader and user-context resolver. The default network-visible runtime still does not open PostgreSQL or configure an accepted authenticated/local-only resolver. Retrieval orchestration, production authentication, synchronization, complete user experience, deployment, and Stable qualification remain open.
+The article-list source boundary is implemented and capability advertisement remains conditional on both an article reader and user-context resolver. The Development runtime can now open/migrate PostgreSQL and inject the store as the article reader, but it still does not configure an accepted authenticated/local-only resolver; article listing therefore remains fail-closed. Retrieval orchestration, production authentication, synchronization, complete user experience, deployment, and Stable qualification remain open.
 
 ## Persistence and compatibility
 
