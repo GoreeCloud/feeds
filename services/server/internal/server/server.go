@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/GoreeCloud/feeds-server/internal/feed"
 )
@@ -64,7 +65,7 @@ type articleSummaryResponse struct {
 	URL         string     `json:"url"`
 	Title       string     `json:"title"`
 	Author      string     `json:"author"`
-	PublishedAt any        `json:"published_at"`
+	PublishedAt *time.Time `json:"published_at"`
 	Summary     string     `json:"summary"`
 	Language    string     `json:"language"`
 	Read        bool       `json:"read"`
