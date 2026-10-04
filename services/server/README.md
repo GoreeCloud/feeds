@@ -6,21 +6,22 @@ GoreeCloud Feeds Server is the authoritative back-end project for GoreeCloud Fee
 
 **Lifecycle:** Development.
 
-The repository contains a minimal verified Development runtime written in Go plus internal normalized feed/article models, RSS/Atom parsing, conservative article deduplication, a bounded outbound feed-retrieval transport, and a version-controlled PostgreSQL schema/migration foundation. The network-visible runtime surface remains intentionally limited to:
+The repository contains a minimal verified Development runtime written in Go plus internal normalized feed/article models, RSS/Atom parsing, conservative article deduplication, a bounded outbound feed-retrieval transport, and a version-controlled PostgreSQL schema/migration foundation. The network-visible runtime surface remains intentionally bounded to:
 
 - `GET /api/v1/capabilities` — non-sensitive Development protocol/capability metadata;
+- `GET /api/v1/articles` — dependency-gated article-list path that remains 503 unless both an article reader and approved user-context resolver are configured;
 - `GET /health/live` — process liveness;
-- `GET /health/ready` — readiness for the current dependency-free Development tranche.
+- `GET /health/ready` — Development process readiness.
 
 Feed parsing and normalization are partially implemented as an internal, dependency-free library for caller-supplied XML. The parser supports RSS 2.x and Atom 1.x normalization, recoverable warnings for incomplete metadata, XML complexity limits, and explicit separation between shared article content and per-user article state.
 
 Article deduplication is also partially implemented as an internal dependency-free library. The current tranche preserves the first article as canonical and recognizes duplicates only when exact source-scoped evidence agrees: normalized source identifiers, conservatively normalized URLs, or a title/publication/content fingerprint. If independent evidence points to different canonical articles, the candidate is retained rather than merged. Fuzzy similarity and cross-source collapsing are intentionally deferred.
 
-ADR-0002 selects PostgreSQL 18 for durable persistence. The repository contains ordered embedded SQL migrations, a bounded pgx v5.11.0 connection-pool/migration layer, and an internal durable repository layer for core user references, feeds, subscriptions, canonical articles, source-scoped deduplication keys/source history, and per-user article state. Article writes, identity-key checks, and source-history writes share one PostgreSQL transaction. The storage package is integration-tested against PostgreSQL 18.6, but the network-visible Feeds Server runtime is not yet wired to require or use a database.
+ADR-0002 selects PostgreSQL 18 for durable persistence. The repository contains ordered embedded SQL migrations, a bounded pgx v5.11.0 connection-pool/migration layer, and an internal durable repository layer for core user references, feeds, subscriptions, canonical articles, source-scoped deduplication keys/source history, and per-user article state. Article writes, identity-key checks, and source-history writes share one PostgreSQL transaction. The storage package is integration-tested against PostgreSQL 18.6. The Development server can now optionally open and migrate PostgreSQL when `GOREECLOUD_FEEDS_DATABASE_URL` is supplied, and injects the resulting store as the article reader. Database configuration remains optional so the dependency-free Development capability/health runtime is preserved.
 
 The internal retrieval package now provides the first bounded remote-feed transport primitive. It defaults to HTTPS, rejects credential-bearing URLs, denies private/loopback/link-local/special-use destinations unless explicitly allowlisted, validates every resolved address before dialing, disables environment-proxy inheritance, revalidates redirects, blocks HTTPS-to-HTTP downgrade redirects, strips origin-specific validators and ambient credentials on cross-origin redirects, supports ETag/Last-Modified conditional retrieval, applies request/connect/header/body limits, bounds concurrent requests, and applies bounded retry/backoff for transient HTTP/network failures. It is not yet wired into a scheduler, subscription workflow, fetch-history store, parser pipeline, or public API.
 
-Server-runtime database wiring, retrieval scheduling/queueing/adaptive refresh/priority/history integration, full subscription settings, article categories/tags/media/image persistence, retention execution, search, synchronization, accounts/authentication, administration, notifications, backup/restore, packaging, deployment, Release Candidate, production acceptance, and Stable release remain **not** implemented.
+An accepted authenticated/local-only user-context resolver, retrieval scheduling/queueing/adaptive refresh/priority/history integration, full subscription settings, article categories/tags/media/image persistence, retention execution, search, synchronization, accounts/authentication, administration, notifications, backup/restore, production secret/configuration policy, packaging, deployment, Release Candidate, production acceptance, and Stable release remain **not** implemented.
 
 ## Development toolchain
 
@@ -35,7 +36,7 @@ Server-runtime database wiring, retrieval scheduling/queueing/adaptive refresh/p
 - GitHub Actions validation on exact pull-request candidates
 - Development API contract version `0.1.0-dev` owned by GoreeCloud/feeds-protocol
 
-pgx v5.11.0 remains the only added Go runtime dependency; the retrieval tranche adds no third-party runtime dependency. PostgreSQL 18.6 is exercised in CI, while the current network-visible Development server still runs without a database and does not invoke the retrieval client.
+pgx v5.11.0 remains the only added Go runtime dependency; the retrieval tranche adds no third-party runtime dependency. PostgreSQL 18.6 is exercised in CI. The Development server still runs without a database when no database URL is configured; when configured, it opens/migrates PostgreSQL but continues to withhold article capability because no user-context resolver is wired. The runtime does not yet invoke the retrieval client.
 
 ## Development run
 
@@ -45,7 +46,7 @@ From the repository root:
 go run ./cmd/feeds-server
 ```
 
-The Development runtime binds to `127.0.0.1:8080` by default. An alternate development address may be supplied with `-listen`.
+The Development runtime binds to `127.0.0.1:8080` by default. An alternate development address may be supplied with `-listen`. Optional PostgreSQL wiring is enabled only when `GOREECLOUD_FEEDS_DATABASE_URL` is set at process startup; connection strings are runtime inputs and must not be committed.
 
 Example non-sensitive checks:
 
