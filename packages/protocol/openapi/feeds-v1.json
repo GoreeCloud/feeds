@@ -25,6 +25,69 @@
           }
         }
       }
+    },
+    "/api/v1/articles": {
+      "get": {
+        "operationId": "listArticles",
+        "summary": "List recent articles for the server-derived user context",
+        "description": "Returns a bounded chronological article list scoped to the authenticated or explicitly approved local user context derived by the server. Clients must not supply a user identifier. The endpoint may be unavailable until the server runtime has both article storage and a user-context resolver configured.",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "Maximum number of article summaries to return.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Chronological article list for the server-derived user context",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArticleListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid article-list request, including any attempt to supply user_id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authenticated or approved local user context is required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Article listing, user context, or backing storage is unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -64,6 +127,101 @@
               "type": "string"
             },
             "description": "Enabled optional protocol capabilities. Empty in the first Development tranche."
+          }
+        }
+      },
+      "ArticleSummary": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "feed_id",
+          "feed_title",
+          "url",
+          "title",
+          "author",
+          "published_at",
+          "summary",
+          "language",
+          "read",
+          "saved",
+          "favorite"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "feed_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "feed_title": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "author": {
+            "type": "string"
+          },
+          "published_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "language": {
+            "type": "string"
+          },
+          "read": {
+            "type": "boolean"
+          },
+          "saved": {
+            "type": "boolean"
+          },
+          "favorite": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ArticleListResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "articles"
+        ],
+        "properties": {
+          "articles": {
+            "type": "array",
+            "maxItems": 100,
+            "items": {
+              "$ref": "#/components/schemas/ArticleSummary"
+            }
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "error",
+          "message"
+        ],
+        "properties": {
+          "error": {
+            "type": "string",
+            "minLength": 1
+          },
+          "message": {
+            "type": "string"
           }
         }
       }
