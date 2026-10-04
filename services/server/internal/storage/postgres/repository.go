@@ -65,7 +65,6 @@ type StoredArticleState struct {
 	LastReadAt *time.Time
 }
 
-
 func (s *Store) UpsertUserReference(ctx context.Context, user UserReference) error {
 	if err := ensureStore(s); err != nil {
 		return err
