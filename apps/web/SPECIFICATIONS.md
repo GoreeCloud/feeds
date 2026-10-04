@@ -3,12 +3,12 @@
 ## Status
 
 Component: GoreeCloud Feeds Web  
-Repository: GoreeCloud/feeds-web  
+Repository: GoreeCloud/feeds  
 Component class: Web application  
 Lifecycle: Development  
-Implementation status: TypeScript Development toolchain and bounded capability-protocol client established; rendered application not yet implemented
+Implementation status: TypeScript Development toolchain plus strict capability and bounded article-list protocol clients established; rendered application not yet implemented
 
-This specification scopes the web-client responsibilities derived from the governing GoreeCloud Feeds product roadmap. The current implementation is limited to a pinned TypeScript Development toolchain, typed Development-state module, and a bounded client for the non-sensitive `GET /api/v1/capabilities` Development contract; no user-facing application is implemented.
+This specification scopes the web-client responsibilities derived from the governing GoreeCloud Feeds product roadmap. The current implementation includes a pinned TypeScript Development toolchain, typed Development-state module, a strict client for non-sensitive `GET /api/v1/capabilities`, and a strict bounded client for `GET /api/v1/articles`; no rendered user-facing application is implemented.
 
 ## Authority boundary
 
@@ -54,7 +54,7 @@ The client should minimize unnecessary external requests, avoid advertising/prof
 
 ## Current implementation decision
 
-The web language is TypeScript 7.0.2. Development/CI execution uses Node.js 24.21.0 LTS and npm 11.19.0. The repository currently uses the TypeScript compiler directly and intentionally has no UI framework or browser bundler. `src/protocol/capabilities.ts` implements strict `0.1.0-dev` capability-response validation and a dependency-free fetch client for the authoritative protocol endpoint. The client omits credentials and rejects redirects because the current endpoint exposes only non-sensitive Development metadata. Glaze UI V1.6.0 remains mandatory for the first rendered GoreeCloud interface.
+The web language is TypeScript 7.0.2. Development/CI execution uses Node.js 24.21.0 LTS and npm 11.19.0. The repository currently uses the TypeScript compiler directly and intentionally has no UI framework or browser bundler. `src/protocol/capabilities.ts` implements strict `0.1.0-dev` capability-response validation and a dependency-free fetch client for non-sensitive capability discovery. `src/protocol/articles.ts` implements strict bounded article-list validation and a credential-aware request path for server-derived user context. Both clients reject redirects, use no-store behavior, and validate protocol shape before returning data. Glaze UI V1.6.0 remains mandatory for the first rendered GoreeCloud interface.
 
 ## Open decisions
 
