@@ -7,14 +7,14 @@ The repository is in Development. The current runtime is intentionally minimal a
 Current security-relevant properties verified by source/tests:
 
 - the Development listener binds to loopback by default;
-- the implemented endpoints expose only static non-sensitive capability metadata and health state;
-- no user/feed/article data is stored by the runtime;
+- the Development article-list route exists but remains dependency-gated; without an approved user-context resolver it returns service-unavailable and its capability is not advertised;
+- the runtime may open an operator-configured PostgreSQL store and apply migrations before serving, but it does not expose account-scoped article data unless a separate approved user-context resolver is also configured;
 - parser input is caller-supplied in-memory XML only and is not exposed through the current HTTP surface;
 - XML DTD/entity directives are rejected and XML depth/node complexity is bounded;
 - deduplication is internal/in-memory and requires source-scoped exact evidence;
 - ambiguous deduplication evidence fails safe by retaining the candidate rather than merging it;
 - deduplication URL handling rejects credential-bearing URLs and does not make network requests;
-- the PostgreSQL migration foundation contains schema only: no database credentials, active connection strings, database roles, or deployment secrets;
+- PostgreSQL connection strings are runtime-only inputs through `GOREECLOUD_FEEDS_DATABASE_URL`; no active credentials or deployment secrets are committed to source;
 - the initial migration is additive and extension-free, and automated tests reject destructive table/schema/drop/truncate/delete operations in that migration;
 - pgx v5.11.0 is pinned with module checksums and CI verifies the committed module lock;
 - database connection strings are runtime inputs and are not intentionally included in Feeds errors or logs;
@@ -26,7 +26,7 @@ Current security-relevant properties verified by source/tests:
 - article IDs cannot be silently rebound to another feed;
 - source-scoped deduplication keys and source-history IDs cannot be silently reassigned to another article; conflicting article transactions roll back;
 - unsupported article metadata collections are rejected rather than silently discarded;
-- no authentication credentials, sessions, tokens, or secrets are implemented;
+- no accepted authentication/session or local-only user-context resolver is implemented;
 - the network-visible server does not invoke outbound feed retrieval;
 - the internal retrieval client defaults to HTTPS and rejects URL-embedded credentials;
 - private, loopback, link-local, carrier-grade NAT, documentation, benchmark, reserved, and other special-use destinations are denied unless an operator explicitly allowlists the network;
