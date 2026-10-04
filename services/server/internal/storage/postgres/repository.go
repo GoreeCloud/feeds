@@ -65,6 +65,21 @@ type StoredArticleState struct {
 	LastReadAt *time.Time
 }
 
+type UserArticleSummary struct {
+	ArticleID   feed.ID
+	FeedID      feed.ID
+	FeedTitle   string
+	URL         string
+	Title       string
+	Author      string
+	PublishedAt *time.Time
+	Summary     string
+	Language    string
+	Read        bool
+	Saved       bool
+	Favorite    bool
+}
+
 func (s *Store) UpsertUserReference(ctx context.Context, user UserReference) error {
 	if err := ensureStore(s); err != nil {
 		return err
@@ -320,6 +335,82 @@ func (s *Store) ArticleByID(ctx context.Context, articleID feed.ID) (StoredArtic
 		return StoredArticle{}, fmt.Errorf("read article %q: %w", articleID, err)
 	}
 	return out, nil
+}
+
+func (s *Store) ListRecentArticlesForUser(
+	ctx context.Context,
+	userID feed.ID,
+	limit int,
+) ([]UserArticleSummary, error) {
+	if err := ensureStore(s); err != nil {
+		return nil, err
+	}
+	if strings.TrimSpace(string(userID)) == "" {
+		return nil, fmt.Errorf("user id is required")
+	}
+	if limit < 1 || limit > 100 {
+		return nil, fmt.Errorf("article list limit must be between 1 and 100")
+	}
+
+	rows, err := s.pool.Query(ctx, `
+		SELECT
+			a.id,
+			a.feed_id,
+			f.title,
+			a.canonical_url,
+			a.title,
+			a.author,
+			a.published_at,
+			a.summary,
+			a.language,
+			COALESCE(state.read, false),
+			COALESCE(state.saved, false),
+			COALESCE(state.favorite, false)
+		FROM goreecloud_feeds.subscriptions AS subscription
+		JOIN goreecloud_feeds.feeds AS f
+			ON f.id = subscription.feed_id
+		JOIN goreecloud_feeds.articles AS a
+			ON a.feed_id = subscription.feed_id
+		LEFT JOIN goreecloud_feeds.article_states AS state
+			ON state.user_id = subscription.user_id
+			AND state.article_id = a.id
+		WHERE subscription.user_id = $1
+			AND subscription.disabled = false
+		ORDER BY
+			COALESCE(a.published_at, a.last_retrieved_at) DESC,
+			a.id DESC
+		LIMIT $2
+	`, userID, limit)
+	if err != nil {
+		return nil, fmt.Errorf("list recent articles for user: %w", err)
+	}
+	defer rows.Close()
+
+	articles := make([]UserArticleSummary, 0, limit)
+	for rows.Next() {
+		var article UserArticleSummary
+		if err := rows.Scan(
+			&article.ArticleID,
+			&article.FeedID,
+			&article.FeedTitle,
+			&article.URL,
+			&article.Title,
+			&article.Author,
+			&article.PublishedAt,
+			&article.Summary,
+			&article.Language,
+			&article.Read,
+			&article.Saved,
+			&article.Favorite,
+		); err != nil {
+			return nil, fmt.Errorf("scan recent article for user: %w", err)
+		}
+		articles = append(articles, article)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("iterate recent articles for user: %w", err)
+	}
+	return articles, nil
 }
 
 func (s *Store) UpsertArticleState(ctx context.Context, input ArticleStateWrite) error {
