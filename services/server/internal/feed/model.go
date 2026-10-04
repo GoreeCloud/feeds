@@ -87,6 +87,21 @@ type ArticleState struct {
 	UpdatedAt    time.Time
 }
 
+type UserArticleSummary struct {
+	ArticleID   ID
+	FeedID      ID
+	FeedTitle   string
+	URL         string
+	Title       string
+	Author      string
+	PublishedAt *time.Time
+	Summary     string
+	Language    string
+	Read        bool
+	Saved       bool
+	Favorite    bool
+}
+
 // ParsedFeed is the normalized result of parsing one feed document.
 // Warnings describe recoverable omissions without converting usable input
 // into a total failure.
