@@ -65,21 +65,6 @@ type StoredArticleState struct {
 	LastReadAt *time.Time
 }
 
-type UserArticleSummary struct {
-	ArticleID   feed.ID
-	FeedID      feed.ID
-	FeedTitle   string
-	URL         string
-	Title       string
-	Author      string
-	PublishedAt *time.Time
-	Summary     string
-	Language    string
-	Read        bool
-	Saved       bool
-	Favorite    bool
-}
-
 func (s *Store) UpsertUserReference(ctx context.Context, user UserReference) error {
 	if err := ensureStore(s); err != nil {
 		return err
@@ -341,7 +326,7 @@ func (s *Store) ListRecentArticlesForUser(
 	ctx context.Context,
 	userID feed.ID,
 	limit int,
-) ([]UserArticleSummary, error) {
+) ([]feed.UserArticleSummary, error) {
 	if err := ensureStore(s); err != nil {
 		return nil, err
 	}
@@ -386,9 +371,9 @@ func (s *Store) ListRecentArticlesForUser(
 	}
 	defer rows.Close()
 
-	articles := make([]UserArticleSummary, 0, limit)
+	articles := make([]feed.UserArticleSummary, 0, limit)
 	for rows.Next() {
-		var article UserArticleSummary
+		var article feed.UserArticleSummary
 		if err := rows.Scan(
 			&article.ArticleID,
 			&article.FeedID,

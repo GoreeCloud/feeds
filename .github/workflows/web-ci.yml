@@ -35,5 +35,6 @@ jobs:
         run: |
           test -f dist/development.js
           test -f dist/protocol/capabilities.js
+          test -f dist/protocol/articles.js
       - name: Validate Development protocol client
         run: npm run test:protocol
