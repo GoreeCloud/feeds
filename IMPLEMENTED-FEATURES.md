@@ -12,10 +12,10 @@ Verified source foundations now present in this repository include:
 - Go server runtime and tests.
 - Normalized feed/article models plus bounded RSS/Atom parsing.
 - Conservative source-scoped article deduplication.
-- PostgreSQL 18 schema/migration, connectivity, and durable core repository foundations.
+- PostgreSQL 18 schema/migration, connectivity, durable core repository foundations, and bounded chronological article reads scoped to a server-supplied user.
 - Bounded remote-feed retrieval with destination/redirect controls, conditional requests, concurrency limits, transient retry/backoff, and bounded `Retry-After` handling.
-- Development OpenAPI contract under `packages/protocol/`.
-- TypeScript web toolchain and typed Development capabilities client under `apps/web/`.
+- Development OpenAPI contract under `packages/protocol/`, including `GET /api/v1/capabilities` and bounded `GET /api/v1/articles`.
+- TypeScript web toolchain plus strict Development capability and article-list clients under `apps/web/`.
 - Monorepo CI that validates the server, web client, and protocol from their new paths.
 
-The network-visible server runtime is not yet fully wired to the persistence and retrieval pipelines, and production authentication, synchronization, full Glaze UI product experience, deployment packaging, backup/recovery acceptance, Release Candidate, and Stable qualification remain incomplete.
+The article-list endpoint is source-implemented behind dependency injection and capability gating, but the default server runtime still lacks PostgreSQL startup wiring and an accepted authenticated/local-only user-context resolver, so ordinary runtime article availability is not established. Production authentication, synchronization, full Glaze UI product experience, deployment packaging, backup/recovery acceptance, Release Candidate, and Stable qualification remain incomplete.
