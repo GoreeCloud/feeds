@@ -3,18 +3,32 @@
 ## Status
 
 Component: GoreeCloud Feeds Protocol  
-Repository: GoreeCloud/feeds-protocol  
+Repository: GoreeCloud/feeds  
 Component class: Shared protocol / contract repository  
-Lifecycle: Planned  
-Implementation status: Repository documentation foundation only
+Lifecycle: Development  
+Implementation status: Versioned OpenAPI 3.1 Development contract and validation tooling implemented for capability discovery and bounded article listing
 
-This specification defines the ownership boundary for future shared protocol work. It does not establish an implemented or released protocol.
+This specification defines the ownership boundary for shared Feeds client/server contracts. The current `0.1.0-dev` OpenAPI contract is source-implemented and validated, but it is Development-only and does not establish a Stable or production protocol release.
 
 ## Protocol authority
 
 GoreeCloud/feeds-protocol is intended to be the authoritative repository for client/server contracts that must be understood by more than one GoreeCloud Feeds component.
 
 Server-private persistence schemas, internal queue formats, private implementation details, browser-only UI state, and repository-local helper types do not become protocol contracts merely because they exist.
+
+## Current Development contract
+
+The verified Development contract currently includes:
+
+- `GET /api/v1/capabilities` for non-sensitive protocol and capability negotiation.
+- `GET /api/v1/articles` for a bounded chronological article list scoped to server-derived authenticated or approved local user context.
+- `articles:list-v1` as the capability identifier for the article-list feature.
+- An optional `limit` parameter bounded to 1..100 with a default of 50.
+- Article summary fields for article/feed identity, feed title, URL, title, author, publication time, summary, language, and read/saved/favorite state.
+- Explicit 400, 401, and 503 error states for invalid requests, unavailable identity, or unavailable backing services.
+- No client-supplied user identifier in the article-list contract.
+
+The contract does not itself define the production authentication/session or local-only identity mechanism. The server must derive that context through an approved implementation before advertising article listing.
 
 ## Planned contract areas
 
@@ -48,4 +62,4 @@ Protocols must not require reusable secrets in payloads or expose private implem
 
 ## Open decisions
 
-No serialization format, transport, schema language, code-generation tool, package format, versioning syntax, API base path, event transport, or compatibility window is selected by this foundation.
+Production authentication/session semantics, local-only identity semantics, synchronization contracts, write-state APIs, search/source/folder APIs, event transport, code generation, package format, and the Stable compatibility window remain open. HTTP/JSON, OpenAPI 3.1, `/api/v1/`, and `0.1.0-dev` are selected for the current Development contract.
