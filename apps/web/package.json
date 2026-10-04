@@ -11,7 +11,7 @@
   "scripts": {
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "build": "tsc -p tsconfig.json",
-    "test:protocol": "node scripts/test-protocol-client.mjs"
+    "test:protocol": "node scripts/test-protocol-client.mjs && node scripts/test-article-client.mjs"
   },
   "devDependencies": {
     "typescript": "7.0.2"
