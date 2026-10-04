@@ -2,10 +2,10 @@ import assert from "node:assert/strict";
 import {
   ARTICLE_LIST_CAPABILITY,
   DEFAULT_ARTICLE_LIST_LIMIT,
-  ProtocolContractError,
   fetchArticles,
   parseArticleListResponse,
 } from "../dist/protocol/articles.js";
+import { ProtocolContractError } from "../dist/protocol/capabilities.js";
 
 const validArticle = Object.freeze({
   id: "article-1",
